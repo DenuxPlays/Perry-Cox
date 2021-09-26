@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+group 'org.perry'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://m2.dv8tion.net/releases' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:4.3.0_331'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.6'
+
+    implementation 'org.reflections:reflections:0.9.12'
+    implementation 'org.mongodb:mongodb-driver:3.12.10'
+    implementation 'com.google.code.gson:gson:2.8.8'
+}
