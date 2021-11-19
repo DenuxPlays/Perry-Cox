@@ -1,4 +1,4 @@
-package com.denux.perry.commands.dao;
+package com.denux.perry.bot.commands.dao;
 
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 

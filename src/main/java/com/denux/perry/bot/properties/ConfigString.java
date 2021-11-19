@@ -1,6 +1,6 @@
-package com.denux.perry.properties;
+package com.denux.perry.bot.properties;
 
-public class ConfigString extends com.denux.perry.properties.ConfigElement {
+public class ConfigString extends com.denux.perry.bot.properties.ConfigElement {
     private String value;
 
     public ConfigString(String entryname) {

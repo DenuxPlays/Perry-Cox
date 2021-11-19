@@ -1,13 +1,13 @@
-package com.denux.perry.services;
+package com.denux.perry.bot.services;
 
 import java.awt.*;
 
 public class Constants {
 
-    public static final String COMMANDS_PACKAGE = "com.denux.perry.commands";
+    public static final String COMMANDS_PACKAGE = "com.denux.perry.bot.commands";
     public static final String CONFIG_PATH = "config.properties";
 
-    public static final int THREAD_POOL_SIZE = 4;
+    public static final int THREAD_POOL_SIZE = 8;
 
     public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_WHITE = "\u001B[37m";

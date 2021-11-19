@@ -1,6 +1,6 @@
-package com.denux.perry.properties;
+package com.denux.perry.bot.properties;
 
-public class ConfigInt extends com.denux.perry.properties.ConfigElement {
+public class ConfigInt extends com.denux.perry.bot.properties.ConfigElement {
     private int value;
 
     public ConfigInt(String entryname) {

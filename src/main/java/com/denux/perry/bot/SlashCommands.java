@@ -1,10 +1,10 @@
-package com.denux.perry;
+package com.denux.perry.bot;
 
-import com.denux.perry.commands.SlashCommandHandler;
-import com.denux.perry.commands.dao.GuildSlashCommand;
-import com.denux.perry.commands.dao.GuildSlashSubCommand;
-import com.denux.perry.commands.dao.GuildSlashSubCommandGroup;
-import com.denux.perry.services.Constants;
+import com.denux.perry.bot.commands.SlashCommandHandler;
+import com.denux.perry.bot.commands.dao.GuildSlashCommand;
+import com.denux.perry.bot.commands.dao.GuildSlashSubCommand;
+import com.denux.perry.bot.commands.dao.GuildSlashSubCommandGroup;
+import com.denux.perry.bot.services.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;

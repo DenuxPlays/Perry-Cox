@@ -1,9 +1,9 @@
-package com.denux.perry.commands.info;
+package com.denux.perry.bot.commands.info;
 
-import com.denux.perry.Bot;
-import com.denux.perry.commands.SlashCommandHandler;
-import com.denux.perry.commands.dao.GuildSlashCommand;
-import com.denux.perry.services.Constants;
+import com.denux.perry.bot.Bot;
+import com.denux.perry.bot.commands.SlashCommandHandler;
+import com.denux.perry.bot.commands.dao.GuildSlashCommand;
+import com.denux.perry.bot.services.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;

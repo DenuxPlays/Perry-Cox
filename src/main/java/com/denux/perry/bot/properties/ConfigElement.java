@@ -1,6 +1,6 @@
-package com.denux.perry.properties;
+package com.denux.perry.bot.properties;
 
-import com.denux.perry.services.Constants;
+import com.denux.perry.bot.services.Constants;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
