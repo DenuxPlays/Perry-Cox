@@ -1,9 +1,16 @@
 plugins {
     id 'java'
-    id'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'application'
 }
 
-group 'org.perry'
+application {
+    mainClass = 'com.denux.perry.Bot'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+group 'com.denux'
 version '1.0'
 
 repositories {
@@ -13,10 +20,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:4.3.0_331'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.6'
+    implementation 'net.dv8tion:JDA:4.3.0_346'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.7'
 
-    implementation 'org.reflections:reflections:0.9.12'
+    implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.mongodb:mongodb-driver:3.12.10'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
+}
+
+test {
+    useJUnitPlatform()
 }
