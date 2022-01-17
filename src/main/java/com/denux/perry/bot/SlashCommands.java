@@ -6,11 +6,11 @@ import com.denux.perry.bot.commands.dao.GuildSlashSubCommand;
 import com.denux.perry.bot.commands.dao.GuildSlashSubCommandGroup;
 import com.denux.perry.bot.services.Constants;
 import com.denux.perry.utils.database.connections.Mongo;
+import com.denux.perry.utils.database.connections.Postgres;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -21,13 +21,14 @@ import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
+@Slf4j
 public class SlashCommands extends ListenerAdapter {
 
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(SlashCommands.class);
     private HashMap<String, SlashCommandHandler> slashCommands;
     private HashMap<String, CommandPrivilege[]> slashPrivileges;
 
@@ -51,7 +52,7 @@ public class SlashCommands extends ListenerAdapter {
                 } catch (NoSuchMethodException nsm) { instance = clazz.getConstructor().newInstance(); }
 
                 if (instance.getCommandData() == null) {
-                    logger.warn("Class {} is missing CommandData. It will be ignored.", clazz.getName());
+                    log.warn("Class {} is missing CommandData. It will be ignored.", clazz.getName());
                     continue;
                 }
                 if (instance.getCommandPrivileges() != null) {
@@ -59,7 +60,7 @@ public class SlashCommands extends ListenerAdapter {
                             instance.getCommandPrivileges());
                 }
                 cmdData = instance.getCommandData();
-                logger.info("{}[{}]{} Added CommandData from Class {}",
+                log.info("{}[{}]{} Added CommandData from Class {}",
                         Constants.TEXT_WHITE, guild.getName(),
                         Constants.TEXT_RESET, clazz.getSimpleName());
 
@@ -73,21 +74,21 @@ public class SlashCommands extends ListenerAdapter {
                     for (var subGroupClazz : instance.getSubCommandGroupClasses()) {
                         GuildSlashSubCommandGroup subGroupInstance = (GuildSlashSubCommandGroup) subGroupClazz.getDeclaredConstructor().newInstance();
                         if (subGroupInstance.getSubCommandGroupData() == null) {
-                            logger.warn("Class {} is missing SubCommandGroupData. It will be ignored.", subGroupClazz.getName());
+                            log.warn("Class {} is missing SubCommandGroupData. It will be ignored.", subGroupClazz.getName());
                             continue;
                         }
-                        logger.info("\t{}[{}]{} Adding SubCommandGroupData from Class {}",
+                        log.info("\t{}[{}]{} Adding SubCommandGroupData from Class {}",
                                 Constants.TEXT_WHITE, clazz.getSimpleName(),
                                 Constants.TEXT_RESET, subGroupClazz.getSimpleName());
 
                         if (subGroupInstance.getSubCommandClasses() == null) {
-                            logger.warn("Class {} is missing SubCommandClasses. It will be ignored.", subGroupClazz.getName());
+                            log.warn("Class {} is missing SubCommandClasses. It will be ignored.", subGroupClazz.getName());
                             continue;
                         }
                         for (var subClazz : subGroupInstance.getSubCommandClasses()) {
                             GuildSlashSubCommand subInstance = (GuildSlashSubCommand) subClazz.getDeclaredConstructor().newInstance();
                             if (subInstance.getSubCommandData() == null) {
-                                logger.warn("Class {} is missing SubCommandData. It will be ignored.", subClazz.getName());
+                                log.warn("Class {} is missing SubCommandData. It will be ignored.", subClazz.getName());
                                 continue;
                             }
                             cmdData.addSubcommandGroups(subGroupInstance.getSubCommandGroupData()
@@ -97,7 +98,7 @@ public class SlashCommands extends ListenerAdapter {
                                     subGroupInstance.getSubCommandGroupData().getName() + " " +
                                     subInstance.getSubCommandData().getName(), (SlashCommandHandler) subInstance);
 
-                            logger.info("\t\t{}[{}]{} Added SubCommandData from Class {}",
+                            log.info("\t\t{}[{}]{} Added SubCommandData from Class {}",
                                     Constants.TEXT_WHITE, subGroupClazz.getSimpleName(), Constants.TEXT_RESET,
                                     subClazz.getSimpleName());
                         }
@@ -108,7 +109,7 @@ public class SlashCommands extends ListenerAdapter {
                     for (var subClazz : instance.getSubCommandClasses()) {
                         GuildSlashSubCommand subInstance = (GuildSlashSubCommand) subClazz.getDeclaredConstructor().newInstance();
                         if (subInstance.getSubCommandData() == null) {
-                            logger.warn("Class {} is missing SubCommandData. It will be ignored.", subClazz.getName());
+                            log.warn("Class {} is missing SubCommandData. It will be ignored.", subClazz.getName());
                         } else {
                             cmdData.addSubcommands(subInstance.getSubCommandData());
 
@@ -116,7 +117,7 @@ public class SlashCommands extends ListenerAdapter {
                                             null + " " + subInstance.getSubCommandData().getName(),
                                     (SlashCommandHandler) subInstance);
 
-                            logger.info("\t{}[{}]{} Added SubCommandData from Class {}",
+                            log.info("\t{}[{}]{} Added SubCommandData from Class {}",
                                     Constants.TEXT_WHITE, clazz.getSimpleName(),
                                     Constants.TEXT_RESET, subClazz.getSimpleName());
                         }
@@ -125,19 +126,30 @@ public class SlashCommands extends ListenerAdapter {
             } catch (Exception e) { e.printStackTrace(); }
             updateAction.addCommands(cmdData);
         }
-        logger.info("{}[{}]{} Queuing SlashCommands",
+        log.info("{}[{}]{} Queuing SlashCommands",
                 Constants.TEXT_WHITE, guild.getName(), Constants.TEXT_RESET);
         updateAction.queue();
     }
 
     @Override
     public void onReady(ReadyEvent event) {
-        //Connection to the databases
+        //Connection to the MongoDB
         Mongo.connect();
+
+        //Testing postgresql connection.
+        try {
+            Connection con = new Postgres().connect();
+            con.close();
+            log.info("Successfully tested PostgreSQL connection.");
+        } catch (Exception exception) {
+            log.error("Testing PostgreSQL connection failed.");
+            exception.printStackTrace();
+            System.exit(0);
+        }
 
         //Adding commands to the guilds
         for (var guild : event.getJDA().getGuilds()) registerSlashCommands(guild);
-        logger.info("{}[*]{} Command update completed\n",
+        log.info("{}[*]{} Command update completed\n",
                 Constants.TEXT_WHITE, Constants.TEXT_RESET);
     }
 
