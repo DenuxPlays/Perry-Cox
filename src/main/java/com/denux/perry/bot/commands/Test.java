@@ -22,13 +22,12 @@ public class Test extends GuildSlashCommand implements SlashCommandHandler {
     public void execute(SlashCommandEvent event) {
         event.deferReply(false).queue();
         DiscordConfig discordConfig = new UtilsManager().getDiscordConfig(event.getGuild());
-        discordConfig.createConfig();
         Document doc = discordConfig.getConfig();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         doc.remove("_id");
         File tempFile;
         try {
-            tempFile = File.createTempFile("discordConfig", ".json");
+            tempFile = File.createTempFile(event.getGuild().getId() + "-", ".json");
 
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
             bufferedWriter.write(gson.toJson(doc));

@@ -1,13 +1,14 @@
 package com.denux.perry.utils.discord_config;
 
 import com.denux.perry.utils.database.connections.Mongo;
+import com.google.gson.JsonObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bson.Document;
 
-import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.eq;;
 
 public class DiscordConfigImpl implements DiscordConfig {
 
@@ -16,6 +17,10 @@ public class DiscordConfigImpl implements DiscordConfig {
      */
     private Guild guild;
 
+    /**
+     * A reference to the MongoDB.
+     * Equal with {@link Mongo#mongoClient}
+     */
     private final MongoClient mongoClient;
 
     public DiscordConfigImpl(Guild guild) {
@@ -23,20 +28,40 @@ public class DiscordConfigImpl implements DiscordConfig {
         mongoClient = Mongo.mongoClient;
     }
 
-    @Override
-    public boolean createConfig() {
-        //TODO add check if guild config exist.
-        Document doc = new Document()
-                .append("guildID", guild.getIdLong());
-
+    /**
+     * Checks if there is already a config in the database.
+     * @return Returns true if there is a config.
+     */
+    private boolean checkIfConfigExists() {
         MongoDatabase database = mongoClient.getDatabase("perryCox");
         MongoCollection<Document> collection = database.getCollection("discordConfigs");
-        collection.insertOne(doc);
+        Document doc = collection.find(eq("guildID", guild.getIdLong())).first();
+        return doc != null;
+    }
+
+    @Override
+    public boolean createConfig() {
+        if (checkIfConfigExists()) {
+            return false;
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("logChannel", 0L);
+            jsonObject.addProperty("publicLogChannel", 0L);
+            jsonObject.addProperty("welcomeChannel", 0L);
+            Document doc = new Document()
+                    .append("guildID", guild.getIdLong())
+                    .append("channels", Document.parse(jsonObject.toString()));
+
+            MongoDatabase database = mongoClient.getDatabase("perryCox");
+            MongoCollection<Document> collection = database.getCollection("discordConfigs");
+            collection.insertOne(doc);
+        }
         return true;
     }
 
     @Override
     public Document getConfig() {
+        if (!checkIfConfigExists()) createConfig();
         MongoDatabase database = mongoClient.getDatabase("perryCox");
         MongoCollection<Document> collection = database.getCollection("discordConfigs");
         return collection.find(eq("guildID", guild.getIdLong())).first();

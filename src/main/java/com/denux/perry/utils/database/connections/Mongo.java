@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class Mongo {
 
     /**
-     * A static Reference to the MongoDB Client.
+     * A static reference to the MongoDB Client.
      * All other MongoClients are based on this one.
      */
     public static MongoClient mongoClient;
