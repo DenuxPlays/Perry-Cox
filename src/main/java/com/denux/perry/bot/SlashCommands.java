@@ -5,6 +5,7 @@ import com.denux.perry.bot.commands.dao.GuildSlashCommand;
 import com.denux.perry.bot.commands.dao.GuildSlashSubCommand;
 import com.denux.perry.bot.commands.dao.GuildSlashSubCommandGroup;
 import com.denux.perry.bot.services.Constants;
+import com.denux.perry.utils.database.connections.Mongo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -131,6 +132,9 @@ public class SlashCommands extends ListenerAdapter {
 
     @Override
     public void onReady(ReadyEvent event) {
+        //Connection to the databases
+        Mongo.connect();
+
         //Adding commands to the guilds
         for (var guild : event.getJDA().getGuilds()) registerSlashCommands(guild);
         logger.info("{}[*]{} Command update completed\n",
