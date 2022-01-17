@@ -1,17 +1,18 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
     id 'application'
 }
 
-application {
-    mainClass = 'com.denux.perry.bot.Bot'
-}
-
-compileJava.options.encoding = 'UTF-8'
-
 group 'com.denux'
 version '1.0'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+application { mainClass = 'com.denux.perry.bot.Bot' }
+
+compileJava { options.encoding = "UTF-8" }
 
 repositories {
     mavenCentral()
@@ -20,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:4.3.0_346'
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.4'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.7'
 
     //Databases
@@ -31,6 +32,4 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
 }
 
-test {
-    useJUnitPlatform()
-}
+test { useJUnitPlatform() }
