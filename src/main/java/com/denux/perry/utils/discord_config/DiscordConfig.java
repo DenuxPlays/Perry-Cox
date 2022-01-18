@@ -1,8 +1,19 @@
 package com.denux.perry.utils.discord_config;
-
 import org.bson.Document;
 
 public interface DiscordConfig {
+
+    /*
+    Get
+     */
+
+    /*
+    Get
+     */
+
+    /*
+    Misc
+     */
 
     /**
      * Creates a new config for the guild.
@@ -12,7 +23,11 @@ public interface DiscordConfig {
 
     /**
      * Gets you the config.
-     * @return The config of the specific guild.
+     * @return Returns tje bson document.
      */
     Document getConfig();
+
+    /*
+    Misc
+     */
 }

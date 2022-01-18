@@ -8,7 +8,6 @@ public class UtilsManager {
 
     /**
      * Gets the guild config from the specific guild.
-     *
      * @param guild The guild you want the config from. {@link Guild}
      * @return Returns the guild config.
      */
