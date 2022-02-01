@@ -5,8 +5,8 @@ import com.denux.perry.bot.commands.SlashCommandHandler;
 import com.denux.perry.bot.commands.dao.GuildSlashCommand;
 import com.denux.perry.bot.services.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
@@ -14,11 +14,11 @@ import java.time.Instant;
 public class BotInfo extends GuildSlashCommand implements SlashCommandHandler {
 
     public BotInfo() {
-        this.commandData = new CommandData("botinfo", "Gives you the general information about the bot.");
+        this.commandData = Commands.slash("botinfo", "Gives you the general information about the bot.");
     }
 
     @Override
-    public void execute(@NotNull SlashCommandEvent event) {
+    public void execute(@NotNull SlashCommandInteractionEvent event) {
 
         //Makes the "Slashy is thinking" and when its true its only visible for the User who sent the command
         event.deferReply().setEphemeral(true).queue();

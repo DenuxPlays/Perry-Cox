@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:5.0.0-alpha.4'
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
     //Databases

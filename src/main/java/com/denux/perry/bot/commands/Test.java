@@ -5,8 +5,8 @@ import com.denux.perry.utils.UtilsManager;
 import com.denux.perry.utils.discord_config.DiscordConfig;
 import com.google.gson.*;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.bson.Document;
 
 import java.io.*;
@@ -15,11 +15,11 @@ import java.io.*;
 public class Test extends GuildSlashCommand implements SlashCommandHandler {
 
     public Test() {
-        this.commandData = new CommandData("test", "Testing stuff that need to be tested.");
+        this.commandData = Commands.slash("test", "Testing stuff that need to be tested.");
     }
 
     @Override
-    public void execute(SlashCommandEvent event) {
+    public void execute(SlashCommandInteractionEvent event) {
         event.deferReply(false).queue();
         DiscordConfig discordConfig = new UtilsManager().getDiscordConfig(event.getGuild());
         Document doc = discordConfig.getConfig();
