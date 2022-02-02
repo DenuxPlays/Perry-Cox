@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:5.0.0-alpha.4'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.7'
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
     //Databases
     implementation 'org.postgresql:postgresql:42.3.1'
@@ -30,6 +30,12 @@ dependencies {
 
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'com.google.code.gson:gson:2.8.9'
+
+    //Lombok annotations
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 test { useJUnitPlatform() }

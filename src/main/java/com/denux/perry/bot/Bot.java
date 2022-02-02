@@ -2,6 +2,7 @@ package com.denux.perry.bot;
 
 import com.denux.perry.bot.properties.ConfigString;
 import com.denux.perry.bot.services.Constants;
+import com.denux.perry.utils.database.connections.Postgres;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -33,6 +34,10 @@ public class Bot {
 
         //Part 1 for async commands
         asyncPool = Executors.newScheduledThreadPool(Constants.THREAD_POOL_SIZE);
+
+        //Other stuff
+        //Setting connection String for the PostgreSQL database.
+        Postgres.connectionString = new ConfigString("postgresql").getValue();
 
         //Creating the bot instance
         jda = JDABuilder.createDefault(new ConfigString("token").getValue())
