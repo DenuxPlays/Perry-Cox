@@ -1,28 +1,23 @@
 package com.denux.perry.bot.commands.info;
 
 import com.denux.perry.bot.Bot;
-import com.denux.perry.bot.commands.SlashCommandHandler;
-import com.denux.perry.bot.commands.dao.GuildSlashCommand;
 import com.denux.perry.bot.services.Constants;
+import dev.denux.sch4jda.slash_command.ISlashCommand;
+import dev.denux.sch4jda.slash_command.dto.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 
-public class BotInfo extends GuildSlashCommand implements SlashCommandHandler {
+public class BotInfo extends SlashCommand implements ISlashCommand {
 
     public BotInfo() {
-        this.commandData = Commands.slash("botinfo", "Gives you the general information about the bot.");
+        this.setCommandData(Commands.slash("botinfo", "Infos about the Bot."));
     }
 
     @Override
-    public void execute(@NotNull SlashCommandInteractionEvent event) {
-
-        //Makes the "Slashy is thinking" and when its true its only visible for the User who sent the command
-        event.deferReply().setEphemeral(true).queue();
-
+    public void handleSlash(SlashCommandInteractionEvent event) {
         var embed = new EmbedBuilder()
                 .setTitle("Botinfo")
                 .setColor(Constants.EMBED_GRAY)
