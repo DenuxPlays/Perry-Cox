@@ -1,9 +1,10 @@
 package com.denux.perry.bot.commands;
 
-import com.denux.perry.bot.commands.dao.GuildSlashCommand;
 import com.denux.perry.utils.UtilsManager;
 import com.denux.perry.utils.discord_config.DiscordConfig;
 import com.google.gson.*;
+import dev.denux.sch4jda.slash_command.ISlashCommand;
+import dev.denux.sch4jda.slash_command.dto.SlashCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -12,15 +13,14 @@ import org.bson.Document;
 import java.io.*;
 
 @Slf4j
-public class Test extends GuildSlashCommand implements SlashCommandHandler {
+public class Test extends SlashCommand implements ISlashCommand {
 
     public Test() {
-        this.commandData = Commands.slash("test", "Testing stuff that need to be tested.");
+        this.setCommandData(Commands.slash("test", "Testing stuff"));
     }
 
     @Override
-    public void execute(SlashCommandInteractionEvent event) {
-        event.deferReply(false).queue();
+    public void handleSlash(SlashCommandInteractionEvent event) {
         DiscordConfig discordConfig = new UtilsManager().getDiscordConfig(event.getGuild());
         Document doc = discordConfig.getConfig();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

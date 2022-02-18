@@ -14,22 +14,25 @@ application { mainClass = 'com.denux.perry.bot.Bot' }
 
 compileJava { options.encoding = "UTF-8" }
 
+
 repositories {
     mavenCentral()
     maven { url 'https://m2.dv8tion.net/releases' }
-    maven { url 'https://jitpack.io' }
+    maven {url 'https://jitpack.io'}
 }
+
 
 dependencies {
     implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
     //Databases
-    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'com.github.DenuxPlays:SCH4JDA:V1.4'
+    implementation 'org.postgresql:postgresql:42.3.2'
     implementation 'org.mongodb:mongodb-driver:3.12.10'
 
     implementation 'org.reflections:reflections:0.10.2'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     //Lombok annotations
     compileOnly 'org.projectlombok:lombok:1.18.22'
