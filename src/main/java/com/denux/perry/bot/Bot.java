@@ -4,9 +4,8 @@ import com.denux.perry.bot.properties.ConfigString;
 import com.denux.perry.bot.services.Constants;
 import com.denux.perry.utils.database.connections.Mongo;
 import com.denux.perry.utils.database.connections.Postgres;
-import dev.denux.sch4jda.SCH4JDA;
-import dev.denux.sch4jda.SCH4JDABuilder;
-import dev.denux.sch4jda.SlashCommandType;
+import com.dynxsty.dih4jda.DIH4JDA;
+import com.dynxsty.dih4jda.DIH4JDABuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -59,10 +58,10 @@ public class Bot extends ListenerAdapter {
                 .build();
         addEventListeners(jda);
 
-        SCH4JDA commandHandler = new SCH4JDABuilder()
+        DIH4JDA commandHandler = DIH4JDABuilder
                 .setJDA(jda)
-                .setCommandType(SlashCommandType.GUILD)
-                .setCommandsPackage(Constants.COMMANDS_PACKAGE)
+                .setCommandsPackage("com.denux.perry.bot.commands")
+                .setOwnerId(313671802809352194L)
                 .build();
     }
 

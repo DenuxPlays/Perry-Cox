@@ -1,44 +1,51 @@
 plugins {
-    id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
-    id 'application'
+    id "java"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
-
-group 'com.denux'
-version '1.0'
 
 sourceCompatibility = 17
 targetCompatibility = 17
 
-application { mainClass = 'com.denux.perry.bot.Bot' }
-
-compileJava { options.encoding = "UTF-8" }
-
+group "com.denux"
+version "1.0"
 
 repositories {
     mavenCentral()
-    maven { url 'https://m2.dv8tion.net/releases' }
-    maven {url 'https://jitpack.io'}
+    maven { url "https://m2.dv8tion.net/releases" }
+    maven {url "https://jitpack.io"}
 }
 
 
 dependencies {
-    implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
+    //Testing stuff
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.2"
+
+    //Discord stuff
+    implementation "net.dv8tion:JDA:5.0.0-alpha.9"
+    implementation "com.github.DynxstyGIT:DIH4JDA:1.2"
+
+    //Logging
+    implementation group: "ch.qos.logback", name: "logback-classic", version: "1.2.11"
 
     //Databases
-    implementation 'com.github.DenuxPlays:SCH4JDA:V1.4'
-    implementation 'org.postgresql:postgresql:42.3.2'
-    implementation 'org.mongodb:mongodb-driver:3.12.10'
+    implementation "org.postgresql:postgresql:42.3.3"
+    implementation "org.mongodb:mongodb-driver:3.12.10"
 
-    implementation 'org.reflections:reflections:0.10.2'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    //JSON thingy
+    implementation "com.google.code.gson:gson:2.9.0"
 
     //Lombok annotations
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    compileOnly "org.projectlombok:lombok:1.18.22"
+    annotationProcessor "org.projectlombok:lombok:1.18.22"
+    testCompileOnly "org.projectlombok:lombok:1.18.22"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.22"
 }
+
+application {
+    mainClass = "com.denux.perry.bot.Bot"
+}
+tasks.withType(JavaCompile){ options.encoding "UTF-8"}
 
 test { useJUnitPlatform() }
