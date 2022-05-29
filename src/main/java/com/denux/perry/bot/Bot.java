@@ -1,11 +1,11 @@
 package com.denux.perry.bot;
 
 import com.denux.perry.bot.properties.ConfigString;
-import com.denux.perry.bot.services.Constants;
-import com.denux.perry.utils.database.connections.Mongo;
-import com.denux.perry.utils.database.connections.Postgres;
+import com.denux.perry.bot.system.SystemSetup;
 import com.dynxsty.dih4jda.DIH4JDA;
 import com.dynxsty.dih4jda.DIH4JDABuilder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,8 +17,6 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Connection;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 @Slf4j
@@ -27,12 +25,17 @@ public class Bot extends ListenerAdapter {
      * A general-purpose thread pool that can be used by the bot to execute
      * tasks outside the main event processing thread.
      */
-    public static ScheduledExecutorService asyncPool;
+    @Getter
+    @Setter
+    private static ScheduledExecutorService asyncPool;
 
+    @Getter
+    private static DIH4JDA commandHandler;
     /**
      * A static reference to the JDA Instance.
      */
-    public static JDA jda;
+    @Getter
+    private static JDA jda;
 
     /**
      * The main method that starts the bot.
@@ -40,13 +43,7 @@ public class Bot extends ListenerAdapter {
      * @throws Exception If any exception occurs during bot creation.
      */
     public static void main(String[] args) throws Exception {
-
-        //Part 1 for async commands
-        asyncPool = Executors.newScheduledThreadPool(Constants.THREAD_POOL_SIZE);
-
-        //Other stuff
-        //Setting connection String for the PostgreSQL database.
-        Postgres.connectionString = new ConfigString("postgresql").getValue();
+        SystemSetup.init();
 
         //Creating the bot instance
         jda = JDABuilder.createDefault(new ConfigString("token").getValue())
@@ -58,32 +55,18 @@ public class Bot extends ListenerAdapter {
                 .build();
         addEventListeners(jda);
 
-        DIH4JDA commandHandler = DIH4JDABuilder
+        commandHandler = DIH4JDABuilder
                 .setJDA(jda)
-                .setCommandsPackage("com.denux.perry.bot.commands")
-                .setOwnerId(313671802809352194L)
+                .setCommandsPackage(Constants.COMMANDS_PACKAGE)
+                .setOwnerId(Constants.OWNER_ID)
                 .build();
     }
 
     private static void addEventListeners(JDA jda) {
-        jda.addEventListener(
-        );
+        jda.addEventListener();
     }
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        //Connection to the MongoDB
-        Mongo.connect();
-
-        //Testing postgresql connection.
-        try {
-            Connection con = new Postgres().connect();
-            con.close();
-            log.info("Successfully tested PostgreSQL connection.");
-        } catch (Exception exception) {
-            log.error("Testing PostgreSQL connection failed.");
-            exception.printStackTrace();
-            System.exit(0);
-        }
     }
 }

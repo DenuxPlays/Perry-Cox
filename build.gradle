@@ -13,7 +13,7 @@ version "1.0"
 repositories {
     mavenCentral()
     maven { url "https://m2.dv8tion.net/releases" }
-    maven {url "https://jitpack.io"}
+    maven { url "https://jitpack.io" }
 }
 
 
@@ -24,7 +24,7 @@ dependencies {
 
     //Discord stuff
     implementation "net.dv8tion:JDA:5.0.0-alpha.9"
-    implementation "com.github.DynxstyGIT:DIH4JDA:1.2"
+    implementation files("libs/dih4jda-1.3-PREVIEW-all (1).jar")
 
     //Logging
     implementation group: "ch.qos.logback", name: "logback-classic", version: "1.2.11"
@@ -43,9 +43,7 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:1.18.22"
 }
 
-application {
-    mainClass = "com.denux.perry.bot.Bot"
-}
+application { mainClass = "com.denux.perry.bot.Bot" }
 tasks.withType(JavaCompile){ options.encoding "UTF-8"}
 
 test { useJUnitPlatform() }
