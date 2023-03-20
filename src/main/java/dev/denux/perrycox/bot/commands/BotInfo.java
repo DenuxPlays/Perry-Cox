@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import xyz.dynxsty.dih4jda.interactions.commands.application.RegistrationType;
 import xyz.dynxsty.dih4jda.interactions.commands.application.SlashCommand;
 
+import javax.annotation.Nonnull;
 import java.time.Instant;
 
 public class BotInfo extends SlashCommand {
@@ -19,7 +20,7 @@ public class BotInfo extends SlashCommand {
 	}
 
 	@Override
-	public void execute(SlashCommandInteractionEvent event) {
+	public void execute(@Nonnull SlashCommandInteractionEvent event) {
 		event.deferReply(true).queue();
 
 		var embed = new EmbedBuilder()
@@ -41,7 +42,8 @@ public class BotInfo extends SlashCommand {
 		event.getHook().sendMessageEmbeds(embed).queue();
 	}
 
-	private static String format(String info) {
+	@Nonnull
+	private static String format(@Nonnull String info) {
 		return "`" + info + "`";
 	}
 }
