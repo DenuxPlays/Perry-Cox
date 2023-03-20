@@ -1,12 +1,10 @@
 #/bin/sh
 DIR="Location"
-GITHUB_NAME=""
-GITHUB_TOKEN=""
 
 cd $DIR
 rm -rf $DIR/redeploy/
 
-git clone https://$GITHUB_NAME:$GITHUB_TOKEN@github.com/Perry-Cox.git redeploy
+git clone https://github.com/DenuxPlays/Perry-Cox.git redeploy
 cd redeploy
 
 bash gradlew :shadowJar
