@@ -10,7 +10,7 @@ cd redeploy
 bash gradlew :shadowJar
 
 if [ $? -eq 0 ]; then
-        rm $DIR/DragonSharksBot.jar
+        rm $DIR/PerryCox.jar
         mv $DIR/redeploy/build/libs/"Perry Cox-GIT_DEPLOY-all.jar" $DIR/PerryCox.jar
 else
         echo FAILED TO COMPILE

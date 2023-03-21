@@ -66,7 +66,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("dev.denux.perrycox.bot")
+    mainClass.set("dev.denux.perrycox.bot.Bot")
 }
 
 val jar: Jar by tasks
