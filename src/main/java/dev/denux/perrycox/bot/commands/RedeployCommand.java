@@ -42,7 +42,7 @@ public class RedeployCommand extends SlashCommand {
 				log.warn("Redeploy canceled due to compilation error.");
 				return;
 			} else {
-				log.info("Compilation successful, stopping the bot.");
+				log.info("Compiled successfully, stopping the bot.");
 				event.getHook().sendMessage("Compilation successful, restarting...").complete();
 			}
 		} catch (InterruptedException | IOException exception) {
