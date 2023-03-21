@@ -1,7 +1,7 @@
 package dev.denux.perrycox.bot.commands;
 
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import dev.denux.perrycox.util.EmbedUtil;
+import dev.denux.perrycox.util.WebhookUtil;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -9,13 +9,14 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import xyz.dynxsty.dih4jda.interactions.commands.application.SlashCommand;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.regex.Pattern;
 
-public class Hyperlink extends SlashCommand {
+public class HyperlinkCommand extends SlashCommand {
 
 	private static final Pattern URL_PATTERN = Pattern.compile("^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b[-a-zA-Z0-9()@:%_+.~#?&/=]*$");
 
-	public Hyperlink() {
+	public HyperlinkCommand() {
 		this.setCommandData(Commands.slash("hyperlink", "Creates a hyperlink")
 				.addOption(OptionType.STRING, "text", "The text of the hyperlink", true)
 				.addOption(OptionType.STRING, "url", "The url of the hyperlink", true));
@@ -23,7 +24,7 @@ public class Hyperlink extends SlashCommand {
 
 	@Override
 	public void execute(@Nonnull SlashCommandInteractionEvent event) {
-		event.deferReply(false).queue();
+		event.deferReply(true).queue();
 		String text = getOption(event, "text");
 		String url = getOption(event, "url");
 		if (!URL_PATTERN.matcher(url).matches()) {
@@ -31,10 +32,9 @@ public class Hyperlink extends SlashCommand {
 			return;
 		}
 
-		MessageEmbed embed = new EmbedBuilder()
-				.setDescription("[" + text + "](" + url + ")")
-				.build();
-		event.getHook().sendMessageEmbeds(embed).queue();
+		WebhookUtil.webhookByChannel(event.getChannel().asTextChannel(),
+				webhook -> WebhookUtil.mirrorEmbedToWebhook(webhook, event.getMember(), List.of(EmbedUtil.hyperlinkEmbed(text, url)), List.of()));
+		event.getHook().sendMessage("Hyperlink created").queue();
 	}
 
 	@Nonnull

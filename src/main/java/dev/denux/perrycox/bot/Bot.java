@@ -1,5 +1,6 @@
 package dev.denux.perrycox.bot;
 
+import dev.denux.perrycox.bot.listeners.HyperlinkListener;
 import dev.denux.perrycox.bot.system.BotConfig;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import xyz.dynxsty.dih4jda.DIH4JDA;
 import xyz.dynxsty.dih4jda.DIH4JDABuilder;
+
+import javax.annotation.Nonnull;
 
 
 @Slf4j
@@ -52,10 +55,15 @@ public class Bot {
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .build();
+        addEventListeners(jda);
 
         commandHandler = DIH4JDABuilder
                 .setJDA(jda)
                 .setCommandPackages(Constants.COMMANDS_PACKAGE)
                 .build();
+    }
+
+    private static void addEventListeners(@Nonnull JDA jda) {
+        jda.addEventListener(new HyperlinkListener());
     }
 }

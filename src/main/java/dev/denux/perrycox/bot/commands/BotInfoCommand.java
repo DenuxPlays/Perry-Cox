@@ -12,9 +12,9 @@ import xyz.dynxsty.dih4jda.interactions.commands.application.SlashCommand;
 import javax.annotation.Nonnull;
 import java.time.Instant;
 
-public class BotInfo extends SlashCommand {
+public class BotInfoCommand extends SlashCommand {
 
-	public BotInfo() {
+	public BotInfoCommand() {
 		setCommandData(Commands.slash("botinfo", "Gives you the general information about the Bot."));
 		setRegistrationType(RegistrationType.GLOBAL);
 	}
