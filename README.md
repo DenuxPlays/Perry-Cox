@@ -1,1 +1,1 @@
-Utility Bot for -Denux#7095
+Denux' utility bot.
