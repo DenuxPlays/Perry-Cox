@@ -2,7 +2,6 @@ package dev.denux.perrycox.bot.listeners;
 
 import dev.denux.perrycox.util.EmbedUtil;
 import dev.denux.perrycox.util.WebhookUtil;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@Slf4j
 public class HyperlinkListener extends ListenerAdapter {
 
 	private final static Pattern HYPERLINK_REGEX = Pattern.compile("\\[(?<text>[^]]*)]\\((?<link>[^)]*)\\)");

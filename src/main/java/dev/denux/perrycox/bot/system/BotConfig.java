@@ -68,4 +68,5 @@ public class BotConfig implements Flushable {
 	}
 
 	private String botToken = "Your Bot Token!";
+	private String redeployScriptLocation = "redeploy.sh";
 }
