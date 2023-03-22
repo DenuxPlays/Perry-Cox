@@ -37,19 +37,20 @@ public class WebhookUtil {
 		});
 	}
 
-	public static void mirrorEmbedToWebhook(@Nonnull Webhook webhook, @Nonnull Member original,
-											@Nonnull List<MessageEmbed> embeds, @Nonnull List<Message.Attachment> attachments) {
-		mirrorEmbedToWebhook(webhook, original, embeds, attachments, 0);
+	public static void mirrorMessageToWebhook(@Nonnull Webhook webhook, @Nonnull Message original,
+											  @Nonnull List<MessageEmbed> embeds, @Nonnull List<Message.Attachment> attachments) {
+		mirrorMessageToWebhook(webhook, original, embeds, attachments, 0);
 	}
 
-	public static void mirrorEmbedToWebhook(@Nonnull Webhook webhook, @Nonnull Member original, @Nonnull List<MessageEmbed> embeds,
-											@Nonnull List<Message.Attachment> attachments, long threadId) {
+	public static void mirrorMessageToWebhook(@Nonnull Webhook webhook, @Nonnull Message original, @Nonnull List<MessageEmbed> embeds,
+											  @Nonnull List<Message.Attachment> attachments, long threadId) {
 		JDAWebhookClient client = new WebhookClientBuilder(webhook.getIdLong(), webhook.getToken())
 				.setThreadId(threadId).buildJDA();
 		WebhookMessageBuilder message = new WebhookMessageBuilder()
 				.setAllowedMentions(AllowedMentions.none())
-				.setAvatarUrl(original.getEffectiveAvatarUrl())
-				.setUsername(original.getEffectiveName());
+				.setContent(original.getContentRaw())
+				.setAvatarUrl(original.getMember().getEffectiveAvatarUrl())
+				.setUsername(original.getMember().getEffectiveName());
 		if (!embeds.isEmpty()) {
 			message.addEmbeds(embeds.stream().map(e -> WebhookEmbedBuilder.fromJDA(e).build()).toList());
 		}

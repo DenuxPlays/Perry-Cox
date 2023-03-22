@@ -1,6 +1,6 @@
 package dev.denux.perrycox.bot.listeners;
 
-import dev.denux.perrycox.util.EmbedUtil;
+import dev.denux.perrycox.bot.Constants;
 import dev.denux.perrycox.util.WebhookUtil;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,15 +15,16 @@ public class HyperlinkListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-		if (event.getAuthor().isBot()) return;
+		if (event.getAuthor().isBot() || event.getAuthor().isSystem()) return;
 		if (event.getMember() == null) return;
+		if (event.getChannel().getIdLong() == Constants.TEST_CHANNEL) return;
 
 		String text = event.getMessage().getContentRaw();
 		if (HYPERLINK_REGEX.matcher(text).find()) {
-			event.getMessage().delete().queue();
 			WebhookUtil.webhookByChannel(event.getChannel().asTextChannel(),
-					webhook -> WebhookUtil.mirrorEmbedToWebhook(webhook, event.getMember(), List.of(EmbedUtil.buildCleanEmbed(text)),
+					webhook -> WebhookUtil.mirrorMessageToWebhook(webhook, event.getMessage(), List.of(),
 							event.getMessage().getAttachments()));
+			event.getMessage().delete().queue();
 		}
 	}
 }
