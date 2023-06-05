@@ -44,7 +44,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
 
     //Discord stuff
-    implementation("net.dv8tion:JDA:5.0.0-beta.9")
+    implementation("net.dv8tion:JDA:5.0.0-beta.10")
     implementation("club.minnced:discord-webhooks:0.8.2")
     implementation("xyz.dynxsty:dih4jda:1.6.2")
 
