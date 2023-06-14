@@ -49,7 +49,7 @@ dependencies {
     implementation("xyz.dynxsty:dih4jda:1.6.2")
 
     //Logging
-    implementation("ch.qos.logback:logback-classic:1.4.7")
+    implementation("ch.qos.logback:logback-classic:1.4.8")
 
     //File thing's
     implementation("dev.denux:dtp:1.0.0-alpha.2")
