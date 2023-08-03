@@ -45,7 +45,7 @@ dependencies {
 
     //Discord stuff
     implementation("net.dv8tion:JDA:5.0.0-beta.12")
-    implementation("club.minnced:discord-webhooks:0.8.2")
+    implementation("club.minnced:discord-webhooks:0.8.3")
     implementation("xyz.dynxsty:dih4jda:1.6.2")
 
     //Logging
