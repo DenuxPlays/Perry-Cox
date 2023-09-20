@@ -28,7 +28,7 @@ val gitCommit: String by lazy {
     String(stdout.toByteArray()).trim()
 }
 
-val lombokVersion = "1.18.28"
+val lombokVersion = "1.18.30"
 
 repositories {
     mavenLocal()
