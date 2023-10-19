@@ -56,7 +56,7 @@ dependencies {
 
     //Code safety
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    errorprone("com.google.errorprone:error_prone_core:2.22.0")
+    errorprone("com.google.errorprone:error_prone_core:2.23.0")
 
     //Lombok annotations (Utility annotations)
     compileOnly("org.projectlombok:lombok:$lombokVersion")
