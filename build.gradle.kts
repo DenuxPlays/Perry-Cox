@@ -52,7 +52,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.11")
 
     //File thing's
-    implementation("dev.denux:dtp:1.0.0-alpha.2")
+    implementation("dev.denux:dtp:1.0.0-alpha.3")
 
     //Code safety
     implementation("com.google.code.findbugs:jsr305:3.0.2")
